@@ -62,8 +62,9 @@ public class AccountResource implements AccountController {
 
     @Override
     public ResponseEntity<AccountOut> update(String id, AccountIn in) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Account account = AccountParser.to(in);
+        account = accountService.update(id, account);
+        return ResponseEntity.ok(AccountParser.to(account));
     }
 
     @Override

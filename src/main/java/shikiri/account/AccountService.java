@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.NonNull;
+import shikiri.account.exceptions.AccountNotFoundException;
 
 @Service
 public class AccountService {
@@ -24,6 +25,17 @@ public class AccountService {
 
     public Account read(@NonNull String id) {
         return accountRepository.findById(id).map(AccountModel::to).orElse(null);
+    }
+
+    public Account update(@NonNull String id, Account in) {
+        return accountRepository.findById(id)
+            .map(existingAccountModel -> {
+                existingAccountModel.name(in.name())
+                                    .email(in.email())
+                                    .hash(calculateHash(in.password()));
+                return accountRepository.save(existingAccountModel).to();
+            })
+            .orElseThrow(() -> new AccountNotFoundException("Account not found"));
     }
 
     public Account login(String email, String password) {
