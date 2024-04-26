@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: account
+spec:
+    selector:
+        matchLabels:
+            app: account
+    replicas: 1
+    template:
+        metadata:
+        labels:
+            app: account
+        spec:
+        containers:
+            - name: account
+            image: humbertosandmann/account:latest
+            ports:
+                - containerPort: 8080
+            env:
+                - name: DATABASE_HOST
+                valueFrom:
+                    configMapKeyRef:
+                        name: postgres-configmap
+                        key: POSTGRES_HOST
+                - name: DATABASE_DB
+                valueFrom:
+                    configMapKeyRef:
+                        name: postgres-configmap
+                        key: POSTGRES_DB
+                - name: DATABASE_USERNAME
+                valueFrom:
+                    secretKeyRef:
+                        name: postgres-credentials
+                        key: POSTGRES_USERNAME
+                - name: DATABASE_PASSWORD
+                valueFrom:
+                    secretKeyRef:
+                        name: postgres-credentials
+                        key: POSTGRES_PASSWORD

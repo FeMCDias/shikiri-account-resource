@@ -1,36 +1,32 @@
+server:
+    port: 8080
+
 spring:
-  application:
-    name: shikiri-account
-  datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/shikiri}
-    username: ${DATABASE_USERNAME:shikiri}
-    password: ${DATABASE_PASSWORD:shikiri123321}
-    driver-class-name: org.postgresql.Driver
-  flyway:
-    baseline-on-migrate: true
-    schemas: account
-  jpa:
-    properties:
-      hibernate:
-        default_schema: account
+    application:
+        name: account
+    datasource:
+        url: jdbc:postgresql://${DATABASE_HOST}:5432/${DATABASE_NAME}
+        username: ${DATABASE_USERNAME:postgres}
+        password: ${DATABASE_PASSWORD:Post123321}
+        driver-class-name: org.postgresql.Driver
+    flyway:
+        baseline-on-migrate: true
+        schemas: account
+    jpa:
+        properties:
+        hibernate:
+            default_schema: account
 
 management:
-  endpoints:
-    web:
-      base-path: /accounts/actuator
-      exposure:
-        include: [ 'prometheus' ]
+    endpoints:
+        web:
+            base-path: /account/actuator
+            exposure:
+                include: [ 'prometheus' ]
 
 eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
-
-springdoc:
-  api-docs:
-    path: /accounts/v3/api-docs
-  swagger-ui:
-    path: /accounts/swagger-ui.html
-  version: 3.0.0
+    client:
+        register-with-eureka: true
+        fetch-registry: true
+        service-url:
+        defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
