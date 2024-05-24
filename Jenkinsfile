@@ -6,6 +6,11 @@ pipeline {
                 build job: 'shikiri.account', wait: true
             }
         }
+        stage('Build Redis') {
+            steps {
+                build job: 'shikiri.redis', wait: true
+            }
+        }
         stage('Build') { 
             steps {
                 sh 'mvn clean package'

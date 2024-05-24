@@ -48,3 +48,15 @@ spec:
                 secretKeyRef:
                   name: postgres-credentials
                   key: POSTGRES_PASSWORD
+
+            - name: REDIS_HOST
+              value: "redis-service"
+  
+            - name: REDIS_PORT
+              value: "6379"
+
+            - name: REDIS_HOST
+              value: "redis-service"
+
+            - name: REDIS_PORT
+              value: "6379"
