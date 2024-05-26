@@ -5,17 +5,17 @@ spring:
     application:
         name: account
     datasource:
-        url: jdbc:postgresql://${DATABASE_HOST}:5432/${DATABASE_NAME}
-        username: ${DATABASE_USERNAME:postgres}
-        password: ${DATABASE_PASSWORD:Post123321}
+        url: jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DB}
+        username: ${POSTGRES_USERNAME:postgres}
+        password: ${POSTGRES_PASSWORD:Post123321}
         driver-class-name: org.postgresql.Driver
     flyway:
         baseline-on-migrate: true
         schemas: account
     jpa:
         properties:
-        hibernate:
-            default_schema: account
+            hibernate:
+                default_schema: account
     redis:
         host: ${REDIS_HOST}
         port: ${REDIS_PORT}
@@ -23,13 +23,20 @@ spring:
 management:
     endpoints:
         web:
-            base-path: /account/actuator
-            exposure:
-                include: [ 'prometheus' ]
+        base-path: /account/actuator
+        exposure:
+            include: ['*', 'prometheus']
 
 eureka:
     client:
         register-with-eureka: true
         fetch-registry: true
         service-url:
-            defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+            defaultZone: http://${DISCOVERY_HOST}:8761/eureka/
+
+springdoc:
+    api-docs:
+        path: /accounts/v3/api-docs
+    swagger-ui:
+        path: /accounts/swagger-ui.html
+    version: 3.0.0
